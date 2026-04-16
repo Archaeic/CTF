@@ -52,7 +52,9 @@ expected = [ 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11, 0x11]
 password = bytes([expected[i] ^ xor_key[i] for i in range(8)])
 print(password.decode())
 ```
+
 Repeat the same thing for other file we got this base64
+
 ```
 Vm0weM1GbFdiRmRWV0doVVltczFWRll3YUVOamJGWnpWbTVrV0ZKc2NIbFhhMXBQVkcxS1IyTkZhRmRpV0ZKeVZtcEdZV05yTlZkYVJsWk9WbXhWZUZacVJsWmxSMUpJVm10V1dHSkhhRlJWYkZKWFZsWmtXR05GWkZSTlZtd3pWREZhWVdKR1NsVldhemxYWVdzMWNWUldSVGxRVVQwOQ==
 ```
