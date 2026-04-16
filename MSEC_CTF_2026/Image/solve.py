@@ -1,6 +1,6 @@
 import struct, os  
 
-path = r"Not\Pasting\The\Path\Here\ImagePrc.exe" 
+path = r"C:\Users\Admin\Desktop\MSEC_CTF_2026\Image\ImagePrc.exe" 
 
 with open(path, 'rb') as f:
     f.seek(0x9060)           
