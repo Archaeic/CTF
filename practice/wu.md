@@ -1046,6 +1046,551 @@ subprocess.run("./main", input=hex_flag.encode())
 ```
 `379beb69ee3fafbacc35b47c425a29004311a049240d702d7f97d36869f622bf`
 
+# natdo
+Main:
+```cpp
+// Hidden C++ exception states: #wind=2
+int __fastcall main(int argc, const char **argv, const char **envp)
+{
+  __int64 v3; // rdx
+  unsigned __int8 v4; // al
+  LPCVOID *v5; // rdx
+  __int64 v6; // r8
+  __int128 *v7; // rdx
+  __int64 v8; // rbx
+  __int64 v9; // rdx
+  unsigned __int8 v10; // al
+  void *v11; // rcx
+  void *v12; // rcx
+  DWORD NumberOfBytesWritten; // [rsp+30h] [rbp-D0h] BYREF
+  DWORD NumberOfBytesRead; // [rsp+34h] [rbp-CCh] BYREF
+  __int128 v16; // [rsp+38h] [rbp-C8h] BYREF
+  __int64 v17; // [rsp+48h] [rbp-B8h]
+  unsigned __int64 v18; // [rsp+50h] [rbp-B0h]
+  LPCVOID lpBuffer[2]; // [rsp+58h] [rbp-A8h] BYREF
+  __m128i nNumberOfBytesToWrite; // [rsp+68h] [rbp-98h]
+  _BYTE Buffer[512]; // [rsp+80h] [rbp-80h] BYREF
+
+  *(_OWORD *)lpBuffer = 0;
+  nNumberOfBytesToWrite = _mm_load_si128((const __m128i *)&xmmword_1400226B0);
+  LOBYTE(lpBuffer[0]) = 0;
+  sub_1400014B0(&qword_140032550, "Enter flag: ", envp);
+  LOBYTE(v3) = 10;
+  v4 = sub_140003C40((char *)qword_1400324B0 + *(int *)(qword_1400324B0[0] + 4), v3);
+  sub_140001E30(qword_1400324B0, lpBuffer, v4);
+  NumberOfBytesWritten = 0;
+  v5 = lpBuffer;
+  if ( nNumberOfBytesToWrite.m128i_i64[1] > 0xFuLL )
+    v5 = (LPCVOID *)lpBuffer[0];
+  WriteFile(hFile, v5, nNumberOfBytesToWrite.m128i_u32[0], &NumberOfBytesWritten, 0);
+  ReadFile(hFile, Buffer, 0x1FFu, &NumberOfBytesRead, 0);
+  if ( NumberOfBytesRead >= 0x200uLL )
+    sub_1400069C4();
+  Buffer[NumberOfBytesRead] = 0;
+  v16 = 0;
+  v17 = 0;
+  v18 = 0;
+  v6 = -1;
+  do
+    ++v6;
+  while ( Buffer[v6] );
+  sub_140001760(&v16, Buffer);
+  v7 = &v16;
+  if ( v18 > 0xF )
+    v7 = (__int128 *)v16;
+  v8 = sub_140001870(&qword_140032550, v7, v17);
+  LOBYTE(v9) = 10;
+  v10 = sub_140003C40(v8 + *(int *)(*(_QWORD *)v8 + 4LL), v9);
+  sub_1400037F0(v8, v10);
+  sub_1400033A0(v8);
+  if ( v18 > 0xF )
+  {
+    v11 = (void *)v16;
+    if ( v18 + 1 >= 0x1000 )
+    {
+      v11 = *(void **)(v16 - 8);
+      if ( (unsigned __int64)(v16 - (_QWORD)v11 - 8) > 0x1F )
+        invalid_parameter_noinfo_noreturn();
+    }
+    j_j_free(v11);
+  }
+  v17 = 0;
+  v18 = 15;
+  LOBYTE(v16) = 0;
+  if ( nNumberOfBytesToWrite.m128i_i64[1] > 0xFuLL )
+  {
+    v12 = (void *)lpBuffer[0];
+    if ( (unsigned __int64)(nNumberOfBytesToWrite.m128i_i64[1] + 1) >= 0x1000 )
+    {
+      v12 = (void *)*((_QWORD *)lpBuffer[0] - 1);
+      if ( (unsigned __int64)((char *)lpBuffer[0] - (char *)v12 - 8) > 0x1F )
+        invalid_parameter_noinfo_noreturn();
+    }
+    j_j_free(v12);
+  }
+  return 0;
+}
+```
+
+The programme is creating a `hFile` and read it, however `hFile` isn't a file but a `HANDLE` so it could be a file, a pipe or a socket!
+
+Next we're going to trace what `hFile` really is.
+
+The data xref leads us to this
+```cpp
+HANDLE sub_140001000()
+{
+  HANDLE result; // rax
+  _QWORD v4[4]; // [rsp+60h] [rbp+0h] BYREF
+
+  _RBP = (_QWORD *)((unsigned __int64)v4 & 0xFFFFFFFFFFFFFFE0uLL);
+  *_RBP = 0x727C4525A6047FD9LL;
+  _RBP[4] = *_RBP;
+  *_RBP = 0x61CD781E152812A6LL;
+  _RBP[5] = *_RBP;
+  *_RBP = 0xB4CA96E7C820E1C7uLL;
+  _RBP[6] = *_RBP;
+  *_RBP = 0xEFE74E4E64E718A4uLL;
+  _RBP[7] = *_RBP;
+  *_RBP = 0x170C2C55FA2A2385LL;
+  _RBP[8] = *_RBP;
+  *_RBP = 0x55FF482C466151FALL;
+  _RBP[9] = *_RBP;
+  *_RBP = 0xB4CA96E7C820E1C7uLL;
+  _RBP[10] = *_RBP;
+  *_RBP = 0xEFE74E4E64E718A4uLL;
+  _RBP[11] = *_RBP;
+  __asm
+  {
+    vmovdqu ymm0, [rbp+70h+var_30]
+    vpxor   ymm1, ymm0, [rbp+70h+var_50]
+  }
+  __asm
+  {
+    vmovdqa [rbp+70h+var_50], ymm1
+    vzeroupper
+  }
+  result = CreateNamedPipeA(
+             (LPCSTR)(((unsigned __int64)v4 & 0xFFFFFFFFFFFFFFE0uLL) + 32),
+             3u,
+             6u,
+             0xFFu,
+             0x200u,
+             0x200u,
+             0,
+             0);
+  if ( result == (HANDLE)-1LL )
+    ExitProcess(0);
+  hFile = result;
+  return result;
+}
+```
+
+![{7F773D83-01AD-4F9B-B211-FF3E927E32B6}](https://hackmd.io/_uploads/H1qFKMzpZl.png)
+
+It's created pipe called `CIS2024`
+
+For further inspection, I tried to run it on x64dbg and found this string that I couldn't find while debugging in IDA.
+
+![{5031C6C0-1DE3-44D9-BAB2-EBFBF58DC91A}](https://hackmd.io/_uploads/Hk6gmozpZx.png)
+
+I also noticed that there's a `_scrt_common_main_seh`, this runs before main, so we'll see what `innitterm` do.
+
+![{D1EABA44-E731-4EBA-BD54-678A88AE848B}](https://hackmd.io/_uploads/S1284tGpZx.png)
+
+The last function 
+```cpp
+void sub_140001130()
+{
+  HRSRC ResourceA; // rax
+  HRSRC v1; // rbx
+  HGLOBAL Resource; // rax
+  const void *v3; // rdi
+  DWORD v4; // eax
+  DWORD v5; // ebx
+  void *v6; // rsi
+  int v7; // ebx
+  __m128 v8; // [rsp+40h] [rbp-38h]
+  CHAR Type[16]; // [rsp+50h] [rbp-28h] BYREF
+
+  *(_QWORD *)Type = 0x170C2C55FA646AC7LL;
+  *(_QWORD *)&Type[8] = 0x55FF482C466151FALL;
+  v8.m128_u64[0] = 0x170C2C55FA2A2385LL;
+  v8.m128_u64[1] = 0x55FF482C466151FALL;
+  *(__m128 *)Type = _mm_xor_ps((__m128)_mm_load_si128((const __m128i *)Type), v8);
+  ResourceA = FindResourceA(0, (LPCSTR)0x66, Type);
+  v1 = ResourceA;
+  if ( !ResourceA
+    || (Resource = LoadResource(0, ResourceA)) == 0
+    || (v3 = LockResource(Resource)) == 0
+    || (v4 = SizeofResource(0, v1)) == 0 )
+  {
+    ExitProcess(1u);
+  }
+  v5 = v4;
+  v6 = operator new(v4);
+  memcpy(v6, v3, v5);
+  v7 = 0;
+  if ( CreateThread(0, 0, StartAddress, v6, 0, 0) )
+    v7 = 1;
+  else
+    j_j_free(v6);
+  dword_140032220 = v7;
+}
+```
+What it's doing is, loads hidden resource then copies it and executes it in a new thread, which is `StartAddress`
+```cpp
+__int64 __fastcall StartAddress(char *lpThreadParameter)
+{
+  char *v3; // rbp
+  char *v4; // rbx
+  __int64 i; // rcx
+  const CHAR *v6; // rsi
+  unsigned int v7; // edi
+  unsigned int *v8; // rbx
+  const CHAR *v9; // r11
+  const CHAR *v10; // r8
+  __int64 v11; // rdx
+  int v12; // r10d
+  _WORD *v13; // r9
+  const CHAR *j; // r14
+  HMODULE LibraryA; // rbp
+  int v16; // eax
+  FARPROC *v17; // rbx
+  __int64 *v18; // rdi
+  bool v19; // sf
+  const CHAR *v20; // rdx
+
+  if ( *(_QWORD *)lpThreadParameter != 0x44332211EFBEADDELL )
+    return 0;
+  v3 = lpThreadParameter + 64;
+  sub_1400039A0(lpThreadParameter + 64, *((unsigned int *)lpThreadParameter + 3), lpThreadParameter + 48, 16);
+  v4 = &v3[40 * *((_DWORD *)lpThreadParameter + 11)];
+  v6 = (const CHAR *)VirtualAlloc(
+                       *((LPVOID *)lpThreadParameter + 4),
+                       (unsigned int)(*((_DWORD *)v4 - 7) + *((_DWORD *)v4 - 6)),
+                       0x3000u,
+                       0x40u);
+  if ( !v6 )
+    v6 = (const CHAR *)VirtualAlloc(0, (unsigned int)(*((_DWORD *)v4 - 7) + *((_DWORD *)v4 - 6)), 0x3000u, 0x40u);
+  v7 = 0;
+  if ( *((_DWORD *)lpThreadParameter + 11) )
+  {
+    v8 = (unsigned int *)(lpThreadParameter + 84);
+    do
+    {
+      memcpy((void *)&v6[*(v8 - 2)], &v3[*v8 - (unsigned __int64)*((unsigned int *)lpThreadParameter + 2)], *(v8 - 1));
+      ++v7;
+      v8 += 10;
+    }
+    while ( v7 < *((_DWORD *)lpThreadParameter + 11) );
+  }
+  v9 = &v6[-*((_QWORD *)lpThreadParameter + 4)];
+  if ( v6 != *((const CHAR **)lpThreadParameter + 4) )
+  {
+    v10 = &v6[*((unsigned int *)lpThreadParameter + 6)];
+    if ( v10 )
+    {
+      v11 = *((unsigned int *)v10 + 1);
+      for ( i = (unsigned int)(v11 + *(_DWORD *)v10); *(_DWORD *)v10 + (_DWORD)v11; i = (unsigned int)(*(_DWORD *)v10 + v11) )
+      {
+        v12 = 0;
+        v13 = v10 + 8;
+        if ( ((v11 - 8) & 0xFFFFFFFFFFFFFFFEuLL) != 0 )
+        {
+          do
+          {
+            if ( (*v13 & 0xF000) == 0xA000 )
+              *(_QWORD *)&v6[(*v13 & 0xFFF) + *(unsigned int *)v10] += v9;
+            v11 = *((unsigned int *)v10 + 1);
+            ++v12;
+            ++v13;
+          }
+          while ( v12 < (unsigned __int64)(v11 - 8) >> 1 );
+        }
+        v10 += (unsigned int)v11;
+        v11 = *((unsigned int *)v10 + 1);
+      }
+    }
+  }
+  for ( j = &v6[*((unsigned int *)lpThreadParameter + 4)]; *((_DWORD *)j + 3); j += 20 )
+  {
+    LibraryA = LoadLibraryA(&v6[*((unsigned int *)j + 3)]);
+    v16 = *(_DWORD *)j;
+    if ( !*(_DWORD *)j )
+      v16 = *((_DWORD *)j + 4);
+    v17 = (FARPROC *)&v6[*((unsigned int *)j + 4)];
+    v18 = (__int64 *)&v6[v16];
+    v19 = *v18 < 0;
+    if ( *v18 )
+    {
+      i = *v18;
+      do
+      {
+        if ( v19 )
+          v20 = (const CHAR *)(unsigned __int16)i;
+        else
+          v20 = &v6[i + 2];
+        ++v18;
+        *v17++ = GetProcAddress(LibraryA, v20);
+        i = *v18;
+        v19 = *v18 < 0;
+      }
+      while ( *v18 );
+    }
+  }
+  ((void (__fastcall *)(__int64))&v6[*((unsigned int *)lpThreadParameter + 10)])(i);
+  return 1;
+}
+```
+This is a PE loader, so we need to "reconstruct" it to get the actual code.
+
+First I copied the address when the function about to jump to payload
+
+![{13A4D237-8FBA-4EF0-A0BE-D9C6061F0BDD}](https://hackmd.io/_uploads/B1WHGjzpbe.png)
+
+Next we'll dump it into a .bin using x64dbg
+
+```cpp
+// write access to const memory has been detected, the output may be wrong!
+__int64 __fastcall sub_1000(__int64 a1, __int64 a2)
+{
+  __int64 v3; // r8
+  __int64 v4; // rax
+  __int64 v5; // rdx
+  __int128 v6; // xmm1
+  __int128 v7; // xmm0
+  _OWORD *v8; // rbx
+  __int64 v11; // rax
+  __int64 v12; // rdx
+  unsigned int v13; // eax
+  __int64 v14; // rbx
+  __int64 v15; // r8
+  __int64 v16; // rcx
+  __int64 v17; // rdx
+  __int64 v18; // rdi
+  __int64 v19; // rdx
+  __int64 v20; // rcx
+  int v21; // edx
+  int v22; // r8d
+  int v23; // r9d
+  __int64 v24; // rcx
+  int v25; // eax
+  _QWORD *v26; // r9
+  __int64 v28; // [rsp+70h] [rbp+0h] BYREF
+
+  _RBP = (_QWORD *)((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL);
+  strcpy((char *)(((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 144), "tin chuan chua");
+  strcpy((char *)(((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 64), "the co lam duoc khong");
+  if ( !(unsigned int)sub_14F3(a1, a2, L"SHA512", (unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL, 0, 8) )
+  {
+    v3 = -1;
+    *(_OWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 96] = 0;
+    v4 = -1;
+    *(_OWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 112] = 0;
+    *(_OWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 128] = 0;
+    do
+      ++v4;
+    while ( *((_BYTE *)_RBP + v4 + 64) );
+    do
+      ++v3;
+    while ( *((_BYTE *)_RBP + v3 + 144) );
+    if ( !(unsigned int)sub_151D(a1, 0, _RBP + 18, *_RBP, v3, _RBP + 8) )
+    {
+      v6 = *(_OWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 112];
+      *(_OWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 32] = *(_OWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 96];
+      v7 = *(_OWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 128];
+      *(_OWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 48] = v6;
+      *(_OWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 64] = v7;
+      v8 = (_OWORD *)sub_1524(a1, 0, v5, 64);
+      *v8 = 0;
+      v8[1] = 0;
+      v8[2] = 0;
+      v8[3] = 0;
+      *_RBP = 0x3C51368C95C2D727LL;
+      *(_QWORD *)&algn_40[(unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL] = *(_QWORD *)((unsigned __int64)&v28
+                                                                                     & 0xFFFFFFFFFFFFFFE0LL);
+      *_RBP = 0x8BE1224756C79450LL;
+      *(_QWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 8] = *(_QWORD *)((unsigned __int64)&v28
+                                                                                           & 0xFFFFFFFFFFFFFFE0LL);
+      *_RBP = 0x48BD24C69A733775LL;
+      *(_QWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 16] = *(_QWORD *)((unsigned __int64)&v28
+                                                                                            & 0xFFFFFFFFFFFFFFE0LL);
+      *_RBP = 0xEC23249F40BD14FELL;
+      *(_QWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 24] = *(_QWORD *)((unsigned __int64)&v28
+                                                                                            & 0xFFFFFFFFFFFFFFE0LL);
+      *_RBP = 0x59215FFCC9EC8B7BLL;
+      *(_QWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 96] = *(_QWORD *)((unsigned __int64)&v28
+                                                                                            & 0xFFFFFFFFFFFFFFE0LL);
+      *_RBP = 0xBFD31275058ED70CLL;
+      *(_QWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 104] = *(_QWORD *)((unsigned __int64)&v28
+                                                                                             & 0xFFFFFFFFFFFFFFE0LL);
+      *_RBP = 0x48BD24C69A733775LL;
+      *(_QWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 112] = *(_QWORD *)((unsigned __int64)&v28
+                                                                                             & 0xFFFFFFFFFFFFFFE0LL);
+      *_RBP = 0xEC23249F40BD14FELL;
+      *(_QWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 120] = *(_QWORD *)((unsigned __int64)&v28
+                                                                                             & 0xFFFFFFFFFFFFFFE0LL);
+      __asm
+      {
+        vmovdqu ymm0, [rbp+0F0h+var_50]
+        vpxor   ymm1, ymm0, [rbp+0F0h+var_B0]
+        vmovdqa [rbp+0F0h+var_B0], ymm1
+        vzeroupper
+      }
+      v11 = MEMORY[0x7FFF4D2A05F0](a1, 0, 3221225472LL, _RBP + 8, 1, 0);
+      qword_1BB00 = v11;
+      if ( v11 != -1 )
+      {
+        if ( (unsigned int)MEMORY[0x7FFF4D2A09A0](a1, 0, v8, v11, 64, (char *)_RBP + 12) )
+        {
+          *(__int64 *)((char *)&qword_18[1] + ((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL)) = *(unsigned int *)&algn_2[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 10];
+          *(__int64 *)((char *)qword_18 + ((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL)) = (__int64)v8;
+          *(_QWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 80] = 0;
+          *_RBP = 0;
+          *(_DWORD *)&algn_2[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 10] = 0;
+          *(_DWORD *)((char *)&qword_10 + ((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL)) = 0;
+          if ( !(unsigned int)sub_14F3(a1, 0, L"AES", _RBP + 18, 0, 0)
+            && !(unsigned int)sub_14F9(
+                                a1,
+                                0,
+                                L"ObjectLength",
+                                *(_QWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 80],
+                                (char *)_RBP + 12,
+                                4) )
+          {
+            v13 = *(_DWORD *)&algn_2[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 10];
+            if ( v13 )
+            {
+              v14 = sub_1524(a1, 0, v12, v13);
+              if ( !(unsigned int)sub_14FF(
+                                    a1,
+                                    0,
+                                    L"ChainingMode",
+                                    *(_QWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 80],
+                                    L"ChainingModeCBC",
+                                    32)
+                && !(unsigned int)sub_150B(
+                                    a1,
+                                    0,
+                                    (unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL,
+                                    *(_QWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 80],
+                                    v14,
+                                    *(unsigned int *)&algn_2[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 10]) )
+              {
+                v15 = *(unsigned int *)((char *)&qword_18[1] + ((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL));
+                v16 = *_RBP;
+                *(_DWORD *)&algn_2[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 6] = 0;
+                if ( !(unsigned int)sub_1511(a1, 0, _RBP + 3, v16, v15, 0) )
+                {
+                  v18 = sub_1524(
+                          a1,
+                          0,
+                          v17,
+                          *(unsigned int *)&algn_2[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 6]);
+                  if ( !(unsigned int)sub_1511(
+                                        v18,
+                                        0,
+                                        *(__int64 *)((char *)qword_18 + ((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL)),
+                                        *_RBP,
+                                        *(unsigned int *)((char *)&qword_18[1]
+                                                        + ((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL)),
+                                        0) )
+                  {
+                    v20 = *_RBP;
+                    *(__int64 *)((char *)&qword_18[1] + ((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL)) = *(unsigned int *)&algn_2[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 6];
+                    *(__int64 *)((char *)qword_18 + ((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL)) = v18;
+                    sub_1517(v18, 0, v19, v20);
+                    sub_1505(v18, 0, 0, *(_QWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 80]);
+                    sub_152C(v18, 0, v21, v14, v22, v23);
+                    v24 = *(__int64 *)((char *)qword_18 + ((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL));
+                    *(_DWORD *)&algn_40[(unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL] = 1142706397;
+                    *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 4] = 1433943489;
+                    *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 8] = 921397323;
+                    *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 12] = 42407791;
+                    *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 16] = 1514215304;
+                    *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 20] = 1362471257;
+                    *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 24] = 1637299534;
+                    *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 28] = -336220085;
+                    v25 = sub_F260(v18, 0, _RBP + 8, v24, 32);
+                    v26 = _RBP + 2;
+                    if ( !v25 )
+                    {
+                      MEMORY[0x7FFF4D2A0A90](v18, 0, "Correct\n", 0, 8, v26);
+                      return 0;
+                    }
+                    MEMORY[0x7FFF4D2A0A90](v18, 0, "Wrong!\n", 0, 7, v26);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  return 1;
+}
+```
+
+We basically have everything this is a `PBKDF2-HMAC-SHA512`, we saw a crypto routine at the original exe.
+
+But first we're converting this into bytes
+```cpp
+ *(_DWORD *)&algn_40[(unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL]        = 1142706397;
+ *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 4]  = 1433943489;
+ *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 8]  = 921397323;
+ *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 12] = 42407791;
+ *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 16] = 1514215304;
+ *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 20] = 1362471257;
+ *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 24] = 1637299534;
+ *(_DWORD *)&algn_40[((unsigned __int64)&v28 & 0xFFFFFFFFFFFFFFE0LL) + 28] = -336220085;
+```
+
+```py
+import struct
+
+vals = [
+    1142706397,
+    1433943489,
+    921397323,
+    42407791,
+    1514215304,
+    1362471257,
+    1637299534,
+    -336220085 & 0xffffffff
+]
+
+cipher = b"".join(struct.pack("<I", v) for v in vals)
+print(cipher.hex())
+
+# dd501c44c13d78554b68eb366f1787028817415a59a935514e3597614bb0f5eb
+```
+
+Solve:
+
+```py
+from hashlib import pbkdf2_hmac
+from Crypto.Cipher import AES
+
+password = b"tin chuan chua"
+salt = b"the co lam duoc khong"
+
+dk = pbkdf2_hmac("sha512", password, salt, 10000, 48)
+key, iv = dk[:32], dk[32:]
+
+ct = bytes.fromhex("dd501c44c13d78554b68eb366f1787028817415a59a935514e3597614bb0f5eb")
+
+pt = AES.new(key, AES.MODE_CBC, iv).decrypt(ct)
+flag = pt[:-pt[-1]].decode()
+print(flag)
+
+# CIS2024{Ju57_51mpl3_p3_l04d3R}
+```
+
+ 
+
+
 
 
 
