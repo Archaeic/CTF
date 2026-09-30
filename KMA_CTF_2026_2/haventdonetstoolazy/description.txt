@@ -1,0 +1,2 @@
+The session survived. Its workers did not.
+Restore the unfinished image.

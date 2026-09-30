@@ -1,0 +1,188 @@
+check_flag:
+    sub esp, 4
+    mov [esp], ecx
+    test ecx, ecx 	
+    jz fail
+    mov eax, 0xA5A5F00D
+    mov ecx, [esp]
+    mov edx, [ecx+0]	
+    xor edx, eax
+    ror edx, 7
+    add edx, 0x9E3779B9
+    mov ecx, edx
+    shr ecx, 16
+    xor edx, ecx
+    mov ecx, eax
+    ror ecx, 11
+    add edx, ecx
+    cmp edx, 0x2DB9FFD8
+    jne fail			
+    add eax, 0x6D2B79F5		
+    mov ecx, edx		
+    ror ecx, 3		
+    xor eax, ecx	
+
+    mov ecx, [esp]		
+    mov edx, [ecx+4]		
+    xor edx, eax		
+    ror edx, 7
+    add edx, 0x9E3779B9
+    mov ecx, edx
+    shr ecx, 16
+    xor edx, ecx
+    mov ecx, eax
+    ror ecx, 11
+    add edx, ecx
+    cmp edx, 0x61A5876C
+    jne fail		
+    add eax, 0x6D2B79F5	
+    mov ecx, edx		
+    ror ecx, 3			
+    xor eax, ecx		
+
+    mov ecx, [esp]
+    mov edx, [ecx+8]
+    xor edx, eax
+    ror edx, 7
+    add edx, 0x9E3779B9
+    mov ecx, edx
+    shr ecx, 16
+    xor edx, ecx
+    mov ecx, eax
+    ror ecx, 11
+    add edx, ecx
+    cmp edx, 0xE973C190
+    jne fail	
+    add eax, 0x6D2B79F5 
+    mov ecx, edx		
+    ror ecx, 3			
+    xor eax, ecx		
+    mov ecx, [esp]
+    mov edx, [ecx+12]
+    xor edx, eax
+    ror edx, 7
+    add edx, 0x9E3779B9
+    mov ecx, edx
+    shr ecx, 16
+    xor edx, ecx
+    mov ecx, eax
+    ror ecx, 11
+    add edx, ecx
+    cmp edx, 0xA79EBD1F
+    jne fail	
+    add eax, 0x6D2B79F5
+    mov ecx, edx
+    ror ecx, 3
+    xor eax, ecx
+
+    mov ecx, [esp]
+    mov edx, [ecx+16]
+    xor edx, eax
+    ror edx, 7
+    add edx, 0x9E3779B9
+    mov ecx, edx
+    shr ecx, 16
+    xor edx, ecx
+    mov ecx, eax
+    ror ecx, 11
+    add edx, ecx
+    cmp edx, 0x984A61DC		
+    jne fail
+    add eax, 0x6D2B79F5
+    mov ecx, edx
+    ror ecx, 3
+    xor eax, ecx
+    mov ecx, [esp]
+    mov edx, [ecx+20]
+    xor edx, eax
+    ror edx, 7
+    add edx, 0x9E3779B9
+    mov ecx, edx
+    shr ecx, 16
+    xor edx, ecx
+    mov ecx, eax
+    ror ecx, 11
+    add edx, ecx
+    cmp edx, 0xA1DE2F85
+    jne fail		
+    add eax, 0x6D2B79F5
+    mov ecx, edx
+    ror ecx, 3
+    xor eax, ecx
+    mov ecx, [esp]
+    mov edx, [ecx+24]
+    xor edx, eax
+    ror edx, 7
+    add edx, 0x9E3779B9
+    mov ecx, edx
+    shr ecx, 16
+    xor edx, ecx
+    mov ecx, eax
+    ror ecx, 11
+    add edx, ecx
+    cmp edx, 0x6E1CED6C
+    jne fail	
+    add eax, 0x6D2B79F5
+    mov ecx, edx
+    ror ecx, 3
+    xor eax, ecx
+    mov ecx, [esp]
+    mov edx, [ecx+28]
+    xor edx, eax
+    ror edx, 7
+    add edx, 0x9E3779B9
+    mov ecx, edx
+    shr ecx, 16
+    xor edx, ecx
+    mov ecx, eax
+    ror ecx, 11
+    add edx, ecx
+    cmp edx, 0x7E7957EC
+    jne fail		
+    add eax, 0x6D2B79F5
+    mov ecx, edx
+    ror ecx, 3
+    xor eax, ecx
+    mov ecx, [esp]
+    mov edx, [ecx+32]
+    xor edx, eax
+    ror edx, 7
+    add edx, 0x9E3779B9
+    mov ecx, edx
+    shr ecx, 16
+    xor edx, ecx
+    mov ecx, eax
+    ror ecx, 11
+    add edx, ecx
+    cmp edx, 0xF7D801A2
+    jne fail		
+    add eax, 0x6D2B79F5
+    mov ecx, edx
+    ror ecx, 3
+    xor eax, ecx
+    mov ecx, [esp]
+    movzx edx, word ptr [ecx+36]
+    xor edx, eax
+    ror edx, 5
+    add edx, 0x85EBCA6B
+    mov ecx, edx
+    shr ecx, 13
+    xor edx, ecx
+    mov ecx, eax
+    shl ecx, 1
+    add edx, ecx
+    cmp edx, 0x0C4B6704
+    jne fail				
+
+    mov ecx, [esp]
+    cmp byte ptr [ecx+38], 0
+    jne fail
+
+    mov eax, 1
+    add esp, 4
+    ret
+
+fail:
+    xor eax, eax
+    add esp, 4
+    ret
