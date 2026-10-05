@@ -719,8 +719,7 @@ We don't know what API are imported nor the address of IAT, so we know it's goin
 
 How do we get the payload then? As we know the packed payload is in `.data`.  And so the programme must be unpacking itself during the execution, which is probably exist somewhere in the memory.
 
-Now windows actually preloaded some APIs and one of them is `NtAllocateVirtualMemory`. Why this API specifically? Because the loader might allocate a new memory buffer to unpack its data into, and `NtAllocateVirtualMemory` allocates memory.
-
+Now windows preloads serveral APIs, one of them is `NtAllocateVirtualMemory`. Why this API specifically? Because `NtAllocateVirtualMemory` allocates a new virtual memory region that the loader can use as a buffer for the payload.
 
 ![{20D3A6FA-F0D1-4307-B1D1-EC9C3BC9113B}](https://hackmd.io/_uploads/Sy--z8Nqzg.png)
 
@@ -1488,16 +1487,12 @@ Password: Longing's Echo
 
 ![{D851F7E2-31D8-41D5-8FBA-E3A7C14B0408}](https://hackmd.io/_uploads/r1ZHj5q9zx.png)
 
-This did take years off my life, I'm too lazy to make this thing readable too.
 
 
 
-A little bit of yapping ses on the current state of CTF this is probably my last ctf writeup (even tho i've been slacking and not updating much), still why "last" i'll still play ctf sometimes yeah, but not going to be too focused on it (THIS YEAR FLARE-ON WAS SOLVED IN AN HOUR SHARP BY ASTRA-6) of course I DO use AI for my ctf don't get me wrong, the difference is I don't use mcp and just say "get the flag, make no mistake" I used it to study about new techniques and assist me in coding
+Refs: https://hackmd.io/@Zupp/RE_Tech_102 (goat)
+      https://hackmd.io/@kieugiathinhphat/r188_FOHWg (https://cryptopals.com/sets/5/challenges/33)
+      https://bluearchive.wiki/wiki/Models#Kei
+      https://www.goodsmile.com/en/product/1145227/
 
-Me personally i'm not against AI at all, it's amazing, it did helped me a bunch in learning reverse engineer. But it's just no point if you just let your agents do all the work right? CTF is about gaining new knowledge, and deepen your understanding of that specific field. And don't get me started on the competition, it's just pay2win, it's not even fair dropping 100bucks on Claude will guarantee you first place in some CTF competition.
 
-CTFs are losing their credibility as a way to hire talent. You can easily get scammed by someone claiming they won a CTF by clearing challenges that no human could realistically solve in 1 hour, look at flare-on that thing took my senior 7-8days to fully solved? freaking astra-6 did it in an hour :sob:
-
-Reverse engineer have changed too, what used to take months of analysis and struggle can now be done in two Claude sessions. But for us student CTF is a place for us to learn DECAGRAMMATON probably took me 2 weeks to solve with the assist of Chatgpt.
-
-Oh yeah, since people abuse AI too much, challenges author make the challenge impossible to solve as a human just so the competition last a little longer against clankers, pretty sad to see. I'll now get started on analyzing malware and stuff instead, mayb that will be more interesting, no one read my writeup, pointless writing this, i'm just using this to vent because i have no one (discord is `.bachy.` plz teach me malware stuff its supercool).
